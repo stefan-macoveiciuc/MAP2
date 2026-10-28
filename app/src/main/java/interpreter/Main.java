@@ -1,28 +1,28 @@
 package interpreter;
 
-import interpreter.model.type.*;
-import interpreter.model.value.*;
+import interpreter.model.adt.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        IType intType = new IntType();
-        IType boolType = new BoolType();
+        IStack<Integer> stack = new MyStack<>();
+        stack.push(10);
+        stack.push(20);
 
-        System.out.println("Integer type: " + intType);
-        System.out.println("Integer default: " + intType.defaultValue());
+        System.out.println("Stack: " + stack);
+        System.out.println("Popped: " + stack.pop());
 
-        System.out.println("Boolean type: " + boolType);
-        System.out.println("Boolean default: " + boolType.defaultValue());
+        IDictionary<String, Integer> dictionary = new MyDictionary<>();
+        dictionary.put("age", 21);
 
-        IValue number = new IntValue(25);
-        IValue active = new BoolValue(true);
+        System.out.println("Dictionary: " + dictionary);
+        System.out.println("Age: " + dictionary.get("age"));
 
-        System.out.println("Number: " + number);
-        System.out.println("Number type: " + number.getType());
+        IList<String> list = new MyList<>();
+        list.add("Hello");
+        list.add("World");
 
-        System.out.println("Active: " + active);
-        System.out.println("Active type: " + active.getType());
+        System.out.println("List: " + list);
     }
 }
