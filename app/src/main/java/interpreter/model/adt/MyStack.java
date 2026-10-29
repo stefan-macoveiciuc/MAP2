@@ -1,15 +1,17 @@
 package interpreter.model.adt;
 
-import javax.management.RuntimeErrorException;
+import interpreter.exceptions.ADTException;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
 public class MyStack<T> implements IStack<T> {
+
     private final Deque<T> stack;
 
-    public MyStack(){
+    public MyStack() {
         stack = new ArrayDeque<>();
     }
 
@@ -19,25 +21,26 @@ public class MyStack<T> implements IStack<T> {
     }
 
     @Override
-    public T pop(){
-        if(stack.isEmpty()){
-            throw new RuntimeException("Stack is empty!");
+    public T pop() throws ADTException {
+        if (stack.isEmpty()) {
+            throw new ADTException("Stack is empty");
         }
+
         return stack.pop();
     }
 
     @Override
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return stack.isEmpty();
     }
 
     @Override
-    public List<T> getElements(){
+    public List<T> getElements() {
         return new ArrayList<>(stack);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return stack.toString();
     }
 }

@@ -1,5 +1,7 @@
 package interpreter.model.adt;
 
+import interpreter.exceptions.ADTException;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,10 +19,11 @@ public class MyDictionary<K, V> implements IDictionary<K, V> {
     }
 
     @Override
-    public V get(K key) {
+    public V get(K key) throws ADTException {
         if (!dictionary.containsKey(key)) {
-            throw new RuntimeException("Key not found: " + key);
+            throw new ADTException("Key not found: " + key);
         }
+
         return dictionary.get(key);
     }
 

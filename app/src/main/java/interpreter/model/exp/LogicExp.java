@@ -1,5 +1,7 @@
 package interpreter.model.exp;
 
+import interpreter.exceptions.ExpressionException;
+import interpreter.exceptions.MyException;
 import interpreter.model.adt.IDictionary;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
@@ -11,17 +13,23 @@ public record LogicExp(
 ) implements IExp {
 
     @Override
-    public IValue eval(IDictionary<String, IValue> symbolTable) {
+    public IValue eval(IDictionary<String, IValue> symbolTable)
+            throws MyException {
 
         IValue leftValue = left.eval(symbolTable);
-        IValue rightValue = right.eval(symbolTable);
 
         if (!(leftValue instanceof BoolValue leftBool)) {
-            throw new RuntimeException("First operand is not a boolean");
+            throw new ExpressionException(
+                    "first operand is not a boolean"
+            );
         }
 
+        IValue rightValue = right.eval(symbolTable);
+
         if (!(rightValue instanceof BoolValue rightBool)) {
-            throw new RuntimeException("Second operand is not a boolean");
+            throw new ExpressionException(
+                    "second operand is not a boolean"
+            );
         }
 
         boolean a = leftBool.val();
