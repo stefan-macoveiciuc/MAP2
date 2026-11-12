@@ -4,9 +4,26 @@ import interpreter.exceptions.ADTException;
 import java.util.Map;
 
 public interface IDictionary<K, V> {
+
+    boolean isDefined(K key);
+
+    V lookup(K key) throws ADTException;
+
     void put(K key, V value);
-    V get(K key) throws ADTException;
-    boolean containsKey(K key);
-    void remove(K key);
-    Map<K, V> getContent();
+
+    void update(K key, V value) throws ADTException;
+
+    void remove(K key) throws ADTException;
+
+    Map<K, V> toMap();
+
+    // Compatibility with Assignment 2
+
+    default boolean containsKey(K key) {
+        return isDefined(key);
+    }
+
+    default V get(K key) throws ADTException {
+        return lookup(key);
+    }
 }

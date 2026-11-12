@@ -1,7 +1,7 @@
+
 package interpreter.model.adt;
 
 import interpreter.exceptions.ADTException;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -16,14 +16,14 @@ public class MyStack<T> implements IStack<T> {
     }
 
     @Override
-    public void push(T element) {
-        stack.push(element);
+    public void push(T value) {
+        stack.push(value);
     }
 
     @Override
     public T pop() throws ADTException {
         if (stack.isEmpty()) {
-            throw new ADTException("Stack is empty");
+            throw new ADTException("Stack is empty!");
         }
 
         return stack.pop();
@@ -35,8 +35,8 @@ public class MyStack<T> implements IStack<T> {
     }
 
     @Override
-    public List<T> getElements() {
-        return new ArrayList<>(stack);
+    public List<T> toList() {
+        return List.copyOf(new ArrayList<>(stack));
     }
 
     @Override

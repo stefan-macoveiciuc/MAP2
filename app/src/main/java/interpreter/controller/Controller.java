@@ -1,59 +1,45 @@
 package interpreter.controller;
 
 import interpreter.exceptions.MyException;
-import interpreter.exceptions.StatementException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
 
 public class Controller {
-
-    private final IRepository repository;
+    private final IRepository repo;
     private final boolean displayFlag;
 
-    public Controller(IRepository repository, boolean displayFlag) {
-        this.repository = repository;
+    public Controller(IRepository repo, boolean displayFlag) {
+        this.repo = repo;
         this.displayFlag = displayFlag;
     }
 
-    public PrgState oneStep() throws MyException {
-
-        PrgState state = repository.getCurrentProgram();
-
+    public PrgState oneStep(PrgState state) throws MyException {
         if (state.getExeStack().isEmpty()) {
-            throw new StatementException(
-                    "execution stack is empty"
-            );
+            throw new interpreter.exceptions.StatementException(
+                    "Execution stack is empty");
         }
 
-        IStmt currentStatement =
-                state.getExeStack().pop();
+        IStmt stmt = state.getExeStack().pop();
+        return stmt.execute(state);
+    }
 
-        PrgState newState =
-                currentStatement.execute(state);
-
-        repository.setCurrentProgram(newState);
-
-        return newState;
+    private void display(PrgState state) {
+        if (displayFlag) {
+            System.out.println(state);
+        }
     }
 
     public void allStep() throws MyException {
+        PrgState state = repo.getCrtPrg();
 
-        PrgState state = repository.getCurrentProgram();
-
-        if (displayFlag) {
-            System.out.println("Initial state:");
-            System.out.println(state);
-        }
+        repo.logPrgStateExec();
+        display(state);
 
         while (!state.getExeStack().isEmpty()) {
-
-            state = oneStep();
-
-            if (displayFlag) {
-                System.out.println();
-                System.out.println(state);
-            }
+            oneStep(state);
+            repo.logPrgStateExec();
+            display(state);
         }
     }
 }

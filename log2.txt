@@ -1,0 +1,78 @@
+ExeStack:
+(int a;(int b;(a = (2 + (3 * 5));(b = (a + 1);print(b)))))
+SymTable:
+Out:
+FileTable:
+
+ExeStack:
+int a
+(int b;(a = (2 + (3 * 5));(b = (a + 1);print(b))))
+SymTable:
+Out:
+FileTable:
+
+ExeStack:
+(int b;(a = (2 + (3 * 5));(b = (a + 1);print(b))))
+SymTable:
+a --> 0
+Out:
+FileTable:
+
+ExeStack:
+int b
+(a = (2 + (3 * 5));(b = (a + 1);print(b)))
+SymTable:
+a --> 0
+Out:
+FileTable:
+
+ExeStack:
+(a = (2 + (3 * 5));(b = (a + 1);print(b)))
+SymTable:
+b --> 0
+a --> 0
+Out:
+FileTable:
+
+ExeStack:
+a = (2 + (3 * 5))
+(b = (a + 1);print(b))
+SymTable:
+b --> 0
+a --> 0
+Out:
+FileTable:
+
+ExeStack:
+(b = (a + 1);print(b))
+SymTable:
+b --> 0
+a --> 17
+Out:
+FileTable:
+
+ExeStack:
+b = (a + 1)
+print(b)
+SymTable:
+b --> 0
+a --> 17
+Out:
+FileTable:
+
+ExeStack:
+print(b)
+SymTable:
+b --> 18
+a --> 17
+Out:
+FileTable:
+
+ExeStack:
+SymTable:
+b --> 18
+a --> 17
+Out:
+18
+FileTable:
+

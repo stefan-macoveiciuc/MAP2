@@ -1,27 +1,39 @@
+
 package interpreter.model.adt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyList<T> implements IList<T>{
+public class MyList<T> implements IList<T> {
+
     private final List<T> list;
 
-    public MyList(){
+    public MyList() {
         list = new ArrayList<>();
     }
 
     @Override
-    public void add(T element){
-        list.add(element);
+    public void add(T value) {
+        list.add(value);
     }
 
     @Override
-    public List<T> getElements(){
-        return new ArrayList<>(list);
+    public T get(int index) {
+        return list.get(index);
     }
 
     @Override
-    public String toString(){
+    public int size() {
+        return list.size();
+    }
+
+    @Override
+    public List<T> toList() {
+        return List.copyOf(list);
+    }
+
+    @Override
+    public String toString() {
         return list.toString();
     }
 }

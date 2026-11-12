@@ -1,7 +1,7 @@
+
 package interpreter.model.adt;
 
 import interpreter.exceptions.ADTException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,12 +14,12 @@ public class MyDictionary<K, V> implements IDictionary<K, V> {
     }
 
     @Override
-    public void put(K key, V value) {
-        dictionary.put(key, value);
+    public boolean isDefined(K key) {
+        return dictionary.containsKey(key);
     }
 
     @Override
-    public V get(K key) throws ADTException {
+    public V lookup(K key) throws ADTException {
         if (!dictionary.containsKey(key)) {
             throw new ADTException("Key not found: " + key);
         }
@@ -28,18 +28,31 @@ public class MyDictionary<K, V> implements IDictionary<K, V> {
     }
 
     @Override
-    public boolean containsKey(K key) {
-        return dictionary.containsKey(key);
+    public void put(K key, V value) {
+        dictionary.put(key, value);
     }
 
     @Override
-    public void remove(K key) {
+    public void update(K key, V value) throws ADTException {
+        if (!dictionary.containsKey(key)) {
+            throw new ADTException("Key not found: " + key);
+        }
+
+        dictionary.put(key, value);
+    }
+
+    @Override
+    public void remove(K key) throws ADTException {
+        if (!dictionary.containsKey(key)) {
+            throw new ADTException("Key not found: " + key);
+        }
+
         dictionary.remove(key);
     }
 
     @Override
-    public Map<K, V> getContent() {
-        return new HashMap<>(dictionary);
+    public Map<K, V> toMap() {
+        return Map.copyOf(dictionary);
     }
 
     @Override
