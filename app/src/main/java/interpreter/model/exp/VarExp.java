@@ -3,12 +3,13 @@ package interpreter.model.exp;
 import interpreter.exceptions.ADTException;
 import interpreter.exceptions.ExpressionException;
 import interpreter.model.adt.IDictionary;
+import interpreter.model.adt.IHeap;
 import interpreter.model.value.IValue;
 
 public record VarExp(String name) implements IExp {
 
     @Override
-    public IValue eval(IDictionary<String, IValue> symbolTable)
+    public IValue eval(IDictionary<String, IValue> symbolTable, IHeap heap)
             throws ExpressionException {
 
         if (!symbolTable.containsKey(name)) {

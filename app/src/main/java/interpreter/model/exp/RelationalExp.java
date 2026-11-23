@@ -2,6 +2,7 @@
 package interpreter.model.exp;
 
 import interpreter.model.adt.IDictionary;
+import interpreter.model.adt.IHeap;
 import interpreter.model.value.*;
 import interpreter.exceptions.*;
 
@@ -10,10 +11,10 @@ public record RelationalExp(
 ) implements IExp {
 
     @Override
-    public IValue eval(IDictionary<String, IValue> symTable)
+    public IValue eval(IDictionary<String, IValue> symTable, IHeap heap)
             throws MyException {
 
-        IValue first = left.eval(symTable);
+        IValue first = left.eval(symTable, heap);
 
         if (!(first instanceof IntValue(int n1))) {
             throw new ExpressionException(
@@ -21,7 +22,7 @@ public record RelationalExp(
             );
         }
 
-        IValue second = right.eval(symTable);
+        IValue second = right.eval(symTable, heap);
 
         if (!(second instanceof IntValue(int n2))) {
             throw new ExpressionException(
