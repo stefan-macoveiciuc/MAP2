@@ -3,8 +3,10 @@ package interpreter.exp;
 
 import interpreter.exceptions.ExpressionException;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.exp.*;
 import interpreter.model.value.*;
+import interpreter.model.stmt.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +22,7 @@ class ArithExpTest {
                 new ValueExp(new IntValue(b))
         );
 
-        return expression.eval(new MyDictionary<>());
+        return expression.eval(new MyDictionary<>(), new MyHeap());
     }
 
     @Test
@@ -68,7 +70,7 @@ class ArithExpTest {
         );
 
         assertThrows(ExpressionException.class,
-                () -> expression.eval(new MyDictionary<>()));
+                () -> expression.eval(new MyDictionary<>(), new MyHeap()));
     }
 
     @Test
@@ -80,7 +82,7 @@ class ArithExpTest {
         );
 
         assertThrows(ExpressionException.class,
-                () -> expression.eval(new MyDictionary<>()));
+                () -> expression.eval(new MyDictionary<>(), new MyHeap()));
     }
 
     @Test

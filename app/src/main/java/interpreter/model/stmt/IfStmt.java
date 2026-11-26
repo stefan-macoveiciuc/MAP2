@@ -18,7 +18,7 @@ public record IfStmt(
             throws MyException {
 
         IValue conditionValue =
-                condition.eval(state.getSymTable());
+                condition.eval(state.getSymTable(), state.getHeap());
 
         if (!(conditionValue instanceof BoolValue boolValue)) {
             throw new StatementException(

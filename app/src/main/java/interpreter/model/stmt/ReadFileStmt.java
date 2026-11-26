@@ -30,7 +30,7 @@ public record ReadFileStmt(IExp exp, String varName) implements IStmt {
             );
         }
 
-        IValue value = exp.eval(symTable);
+        IValue value = exp.eval(symTable, state.getHeap());
 
         if (!(value instanceof StringValue fileName)) {
             throw new StatementException(

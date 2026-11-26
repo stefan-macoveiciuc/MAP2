@@ -3,6 +3,7 @@ package interpreter.exp;
 
 import interpreter.exceptions.ExpressionException;
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.exp.VarExp;
 import interpreter.model.value.*;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class VarExpTest {
 
         assertEquals(
                 new IntValue(10),
-                new VarExp("a").eval(symTable)
+                new VarExp("a").eval(symTable, new MyHeap())
         );
     }
 
@@ -33,7 +34,7 @@ class VarExpTest {
 
         assertEquals(
                 new BoolValue(true),
-                new VarExp("flag").eval(symTable)
+                new VarExp("flag").eval(symTable, new MyHeap())
         );
     }
 
@@ -46,7 +47,7 @@ class VarExpTest {
 
         assertEquals(
                 new StringValue("test.in"),
-                new VarExp("file").eval(symTable)
+                new VarExp("file").eval(symTable, new MyHeap())
         );
     }
 
@@ -57,7 +58,8 @@ class VarExpTest {
 
         assertThrows(
                 ExpressionException.class,
-                () -> new VarExp("missing").eval(symTable)
+                () -> new VarExp("missing")
+                        .eval(symTable, new MyHeap())
         );
     }
 
@@ -66,17 +68,23 @@ class VarExpTest {
         MyDictionary<String, IValue> symTable =
                 new MyDictionary<>();
 
+        MyHeap heap = new MyHeap();
+
         symTable.put("a", new IntValue(5));
 
         VarExp expression = new VarExp("a");
 
-        assertEquals(new IntValue(5),
-                expression.eval(symTable));
+        assertEquals(
+                new IntValue(5),
+                expression.eval(symTable, heap)
+        );
 
-        symTable.update("a", new IntValue(20));
+        symTable.put("a", new IntValue(20));
 
-        assertEquals(new IntValue(20),
-                expression.eval(symTable));
+        assertEquals(
+                new IntValue(20),
+                expression.eval(symTable, heap)
+        );
     }
 
     @Test
@@ -89,7 +97,7 @@ class VarExpTest {
 
         assertEquals(
                 new IntValue(10),
-                new VarExp("b").eval(symTable)
+                new VarExp("b").eval(symTable, new MyHeap())
         );
     }
 }

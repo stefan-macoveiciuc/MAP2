@@ -4,6 +4,11 @@ import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
+import static interpreter.controller.GarbageCollector
+        .getAddrFromSymTable;
+
+import static interpreter.controller.GarbageCollector
+        .safeGarbageCollector;
 
 public class Controller {
     private final IRepository repo;
@@ -13,6 +18,7 @@ public class Controller {
         this.repo = repo;
         this.displayFlag = displayFlag;
     }
+
 
     public PrgState oneStep(PrgState state) throws MyException {
         if (state.getExeStack().isEmpty()) {
@@ -31,15 +37,34 @@ public class Controller {
     }
 
     public void allStep() throws MyException {
-        PrgState state = repo.getCrtPrg();
+
+        PrgState prg = repo.getCrtPrg();
 
         repo.logPrgStateExec();
-        display(state);
 
-        while (!state.getExeStack().isEmpty()) {
-            oneStep(state);
+        while (!prg.getExeStack().isEmpty()) {
+
+            oneStep(prg);
+
+            // State before garbage collection
             repo.logPrgStateExec();
-            display(state);
+
+            // Remove unreachable heap locations
+            prg.getHeap().setContent(
+                    safeGarbageCollector(
+                            getAddrFromSymTable(
+                                    prg.getSymTable()
+                                            .toMap()
+                                            .values()
+                            ),
+                            prg.getHeap().getContent()
+                    )
+            );
+
+            // State after garbage collection
+            repo.logPrgStateExec();
+
+            display(prg);
         }
     }
 }

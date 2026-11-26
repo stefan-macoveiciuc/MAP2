@@ -1,3 +1,5 @@
+
+//removes heap locations that the program can no longer reach.
 package interpreter.controller;
 
 import interpreter.model.value.IValue;

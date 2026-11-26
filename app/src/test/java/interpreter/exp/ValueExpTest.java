@@ -2,7 +2,9 @@
 package interpreter.exp;
 
 import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyHeap;
 import interpreter.model.exp.ValueExp;
+import interpreter.model.type.IntType;
 import interpreter.model.value.*;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,7 @@ class ValueExpTest {
 
         assertEquals(
                 new IntValue(42),
-                expression.eval(new MyDictionary<>())
+                expression.eval(new MyDictionary<>(), new MyHeap())
         );
     }
 
@@ -28,7 +30,7 @@ class ValueExpTest {
 
         assertEquals(
                 new BoolValue(true),
-                expression.eval(new MyDictionary<>())
+                expression.eval(new MyDictionary<>(), new MyHeap())
         );
     }
 
@@ -39,7 +41,7 @@ class ValueExpTest {
 
         assertEquals(
                 new BoolValue(false),
-                expression.eval(new MyDictionary<>())
+                expression.eval(new MyDictionary<>(), new MyHeap())
         );
     }
 
@@ -50,7 +52,7 @@ class ValueExpTest {
 
         assertEquals(
                 new StringValue("test.in"),
-                expression.eval(new MyDictionary<>())
+                expression.eval(new MyDictionary<>(), new MyHeap())
         );
     }
 
@@ -61,7 +63,7 @@ class ValueExpTest {
 
         assertEquals(
                 new StringValue(""),
-                expression.eval(new MyDictionary<>())
+                expression.eval(new MyDictionary<>(), new MyHeap())
         );
     }
 
@@ -70,10 +72,24 @@ class ValueExpTest {
         IntValue value = new IntValue(10);
         ValueExp expression = new ValueExp(value);
 
-        assertEquals(value,
-                expression.eval(new MyDictionary<>()));
+        MyDictionary<String, IValue> symTable =
+                new MyDictionary<>();
 
-        assertEquals(value,
-                expression.eval(new MyDictionary<>()));
+        MyHeap heap = new MyHeap();
+
+        assertEquals(value, expression.eval(symTable, heap));
+        assertEquals(value, expression.eval(symTable, heap));
+    }
+
+    @Test
+    void evaluatesReferenceValue() throws Exception {
+        RefValue value = new RefValue(1, new IntType());
+
+        ValueExp expression = new ValueExp(value);
+
+        assertEquals(
+                value,
+                expression.eval(new MyDictionary<>(), new MyHeap())
+        );
     }
 }

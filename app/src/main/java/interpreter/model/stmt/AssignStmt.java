@@ -23,7 +23,7 @@ public record AssignStmt(
             );
         }
 
-        IValue newValue = expression.eval(symTable);
+        IValue newValue = expression.eval(symTable, state.getHeap());
         IValue oldValue = symTable.get(name);
 
         if (!newValue.getType().equals(oldValue.getType())) {
